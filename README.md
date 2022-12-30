@@ -25,12 +25,9 @@ blocker process. You can edit the `start.sh` script easily to add more.
 
 ```shell
 # start.sh
-
 python3 monitor_process.py blocker.py /etc/hosts
 
 # to create a chain of more monitoring process, just repeat monitor_process.py that many times. For example
-
 python3 monitor_process.py monitor_process.py monitor_process.py blocker.py /etc/hosts
-
 # this will create a chain of 3 monitoring process and one blocker process.
 ```
