@@ -63,3 +63,7 @@ restart your computer (unless you make it a startup script, and have other start
 script, in which case I wish you best of luck getting on Twitter again).
 
 I wonder if it's possilbe to build a circular structure of processes that keep respawning each other.
+
+### LICENSE
+
+Licensed under MIT License.
