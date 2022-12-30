@@ -17,11 +17,19 @@ You can also set this up as a startup process with systemd or init or cron.
 
 ### Usage
 
-To edit the hosts list, there isn't a configuration file (that would be too easy, wouldn't it?). The list
-is a Python list hardcoded in `blocker.py` as a global variable.
+Run the `start.sh` script to start the blocker.
+```shell
+$ start.sh
+Password: 
+# starts ...
+```
 
-To start the script, you can run the `start.sh` script. By default this will start one monitor for one
-blocker process. You can edit the `start.sh` script easily to add more.
+The blocked hosts list isn't stored in a configuration file (that would be too easy, wouldn't it?). Instead,
+the list is a Python list hardcoded in `blocker.py` as a global variable. You will need to edit that to
+add or remove websites from the blocking list.
+
+You can build a chain of monitors too to make it even harder for yourself to stop this blocker script. To
+do that, you can easily edit the `start.sh` script to do that.
 
 ```shell
 # start.sh
@@ -30,4 +38,6 @@ python3 monitor_process.py blocker.py /etc/hosts
 # to create a chain of more monitoring process, just repeat monitor_process.py that many times. For example
 python3 monitor_process.py monitor_process.py monitor_process.py blocker.py /etc/hosts
 # this will create a chain of 3 monitoring process and one blocker process.
+# Technology of our time (copy-paste) makes it very easy to do this multiple times.
+# In vim, you can select it and paste it 100s of times with a few keystrokes.
 ```
