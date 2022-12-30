@@ -1,6 +1,6 @@
 # cockblocker
 
-cockblocker (named after a scene in the Seth Rogen movie Superbad) is a Python script that
+cockblocker (named after a scene in the movie Superbad) is a Python script that
 that will block certain websites (configurable) by setting them to some other IP in
 `/etc/hosts`. If a change to one of the block listed hosts is detected by cockblocker (it polls),
 it will once again set that back to the blocking IP.
