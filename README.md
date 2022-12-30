@@ -44,23 +44,26 @@ python3 monitor_process.py monitor_process.py monitor_process.py blocker.py /etc
 
 ### How it works
 
-We use Python subprocess to start a new process from `monitor_process.py`, we wait for it to finish (the blocker
+We use Python subprocess to start a new process from `monitor_process.py`. We wait for it to finish (the blocker
 process shouldn't finish because it should run in an infinite loop) and when it does we respawn it. We ignore
-the signals SIGINT and SIGHUP with `signal` module, that is part of Python's standard library. We also don't
-try to kill the child processes when our main process ends. So if you try to be clever and kill the monitor
-process, the blocker will still keep running. To completely kill the blocker, you will have to kill the monitor
-process (with sudo and SIGKILL) and then the blocker.
+SIGINT and SIGHUP by setting handlers using the [`signal`](https://docs.python.org/3/library/signal.html) module.
+We also don't try to kill the child processes when our main process dies. So if you try to be clever and kill the monitor
+process, you will still have to kill the blocker separately. To make a neat clean, you will have to follow a top-down order
+and kill all the monitor processes before coming to the blocker.
 
 The monitor script is generic and works for other Python scripts too. Its first argument is the
-path to the python script, and the rest are args that are passed to this script. This makes it possible to chain
-monitor processes very easily, with the parent of each making sure the child is alive and so on. Note that killing
-a process in the middle of a chain will actually start another instance of the rest of the chain. In that case you
+path to the python script to run, and the rest are args that are passed to this script. This makes it possible to chain
+monitor processes very easily (with copy-paste), with the parent of each process making sure the child is alive and so on.
+Note that killing a process in the middle of a chain will actually start another instance of the rest of the chain. In that case you
 will end up with two instances of the base process (in our case, the blocker). I won't so much as call it a bug because
-that makes it even harder to kill all the remaining processes. Another deterrent to trying.
+it makes it even harder to stop the blocker process. Hugely Monstrous.
 
-Please note that I haven't yet thought of how the processes should be killed cleanly (read that again). Easiest way is to
-restart your computer (unless you make it a startup script, and have other startup scripts that reverse edits to this startup
-script, in which case I wish you best of luck getting on Twitter again).
+Please note that I haven't thought of how the process should be killed cleanly (read that again). Easiest way is to
+restart your computer. If you only have a chain of one or two monitors, you can `ps a | grep monitor_process.py` and
+`ps a | grep blocker.py` and make a `sudo kill -9 <pid>` with the PID. It could be possible to write a script that
+kills the processes one by one, but that should make sure that the killing is done in the correct order or you'll
+end up with even more processes than before. There could be other ways of combatting this such as creating your own
+fighting script that keeps removing the blocked websites from `/etc/hosts`.
 
 I wonder if it's possilbe to build a circular structure of processes that keep respawning each other.
 
