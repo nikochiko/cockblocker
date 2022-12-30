@@ -18,9 +18,10 @@ You can also set this up as a startup process with systemd or init or cron.
 ### Usage
 
 Run the `start.sh` script to start the blocker.
+
 ```shell
 $ start.sh
-Password: 
+Password:
 # starts ...
 ```
 
